@@ -2,15 +2,24 @@ import React, { Component } from "react";
 
 class FormTextInput extends Component {
     render() {
+        let min;
+        if (this.props.min) {
+            min = {
+                min: this.props.min,
+            };
+        }
+
         return (
-            <div className="form-group">
+            <div className="form-group single-form-item">
                 <label htmlFor={this.props.id}>{this.props.title}</label>
                 <input
                     type={this.props.type}
                     className="form-control"
                     id={this.props.id}
                     placeholder={this.props.title}
+                    {...min}
                 ></input>
+                <small className="error-message">There was an error</small>
             </div>
         );
     }

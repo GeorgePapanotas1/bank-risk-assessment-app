@@ -1951,7 +1951,11 @@ var ClientForm = /*#__PURE__*/function (_Component) {
 
   _createClass(ClientForm, [{
     key: "render",
-    value: function render() {
+    value: // async sendRequest() {
+    //     const BASE_URL = "http://127.0.0.1:8000/api/";
+    //     await fetch(`${BASE_URL}client/store`);
+    // }
+    function render() {
       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
         className: "client-form-wrapper",
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
@@ -1988,14 +1992,16 @@ var ClientForm = /*#__PURE__*/function (_Component) {
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_FormTextInput__WEBPACK_IMPORTED_MODULE_1__.default, {
               id: "total_deposits",
               type: "number",
-              title: "Total Deposits"
+              title: "Total Deposits",
+              min: "0"
             })
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
             className: "col-md-6",
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_FormTextInput__WEBPACK_IMPORTED_MODULE_1__.default, {
               id: "total_unpaid_loans",
               type: "number",
-              title: "Total Unpaid Loans"
+              title: "Total Unpaid Loans",
+              min: "0"
             })
           })]
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
@@ -2006,16 +2012,25 @@ var ClientForm = /*#__PURE__*/function (_Component) {
               id: "active_loans_number",
               type: "number",
               title: "Total Active Loans",
-              min: "min=0"
+              min: "0"
             })
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
             className: "col-md-6",
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_FormTextInput__WEBPACK_IMPORTED_MODULE_1__.default, {
               id: "total_unsettled_amount",
               type: "number",
-              title: "Total Unsettled Amount"
+              title: "Total Unsettled Amount",
+              min: "0"
             })
           })]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+          className: "row text-center",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
+            onClick: "alert('hello')",
+            type: "button",
+            className: "btn btn-primary m-auto",
+            children: "SUBMIT"
+          })
         })]
       });
     }
@@ -2163,6 +2178,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -2201,16 +2222,27 @@ var FormTextInput = /*#__PURE__*/function (_Component) {
   _createClass(FormTextInput, [{
     key: "render",
     value: function render() {
+      var min;
+
+      if (this.props.min) {
+        min = {
+          min: this.props.min
+        };
+      }
+
       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-        className: "form-group",
+        className: "form-group single-form-item",
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("label", {
           htmlFor: this.props.id,
           children: this.props.title
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("input", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("input", _objectSpread({
           type: this.props.type,
           className: "form-control",
           id: this.props.id,
           placeholder: this.props.title
+        }, min)), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("small", {
+          className: "error-message",
+          children: "There was an error"
         })]
       });
     }
