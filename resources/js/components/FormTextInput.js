@@ -18,6 +18,7 @@ class FormTextInput extends Component {
                     id={this.props.id}
                     placeholder={this.props.title}
                     {...min}
+                    onChange={(e) => this.props.handler(e.target.value)}
                 ></input>
                 <small className="error-message">There was an error</small>
             </div>

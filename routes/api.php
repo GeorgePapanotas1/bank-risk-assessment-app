@@ -21,5 +21,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::group(['prefix' => 'client','middleware' => 'XssSanitizer'], function () {
     Route::post('store', 'App\Http\Controllers\ClientController@store');
+    Route::post('score', 'App\Http\Controllers\ClientController@calculateRiskScore');
  });
 

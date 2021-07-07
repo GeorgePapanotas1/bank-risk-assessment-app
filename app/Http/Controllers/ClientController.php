@@ -24,7 +24,7 @@ class ClientController extends Controller
     public function store(Request $request){
 
         $request->validateWithBag('gp_clients', [
-            'SSN' => ['required', 'unique:gp_clients', 'max:255'],
+            'SSN' => ['required', 'max:255'],
             'fullname' => ['required'],
             'occupation' => ['required'],
             'total_deposits' => ['required', 'numeric', 'min:0'],
@@ -46,5 +46,17 @@ class ClientController extends Controller
             ]
         );
         return $client;
+    }
+
+    public function calculateRiskScore(Request $request){
+        $client = Client::find($request->SSN);
+
+        $risk = $client->calculateRisk();
+
+        $client->risk_score = $client->calculateRisk();
+        $client->save();
+
+        return ['risk' => $risk, 'client' => $client];
+
     }
 }

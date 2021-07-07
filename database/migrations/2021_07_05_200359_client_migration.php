@@ -21,7 +21,7 @@ class ClientMigration extends Migration
             $table->integer('total_unpaid_loans');
             $table->integer('active_loans_number');
             $table->bigInteger('total_unsettled_amount');
-            $table->integer('risk_score')->nullable();
+            $table->integer('risk_score')->default(0);
             $table->timestamps();
         });
     }
