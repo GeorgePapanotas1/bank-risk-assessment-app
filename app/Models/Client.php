@@ -27,6 +27,7 @@ class Client extends Model
     public function calculateRisk() {
 
         $risk = 0;
+
         // Rule #1
         if($this->total_unpaid_loans > 3){
             return 80;
@@ -38,7 +39,6 @@ class Client extends Model
         }else {
             $risk += 30;
         }
-        error_log($risk);
 
         //Rule #3
         if(
@@ -48,25 +48,21 @@ class Client extends Model
          ) {
             $risk -= 20;
         }
-        error_log($risk);
 
         // Rule #4
         if( $this->active_loans_number > 1 ){
             $risk += 30;
         }
-        error_log($risk);
 
         // Rule #5
         if ( $this->total_unpaid_loans > 1 ){
             $risk += 60;
         }
-        error_log($risk);
 
         // Rule #6
         if ( $this->total_unsettled_amount > 0 ){
             $risk += 30;
         }
-        error_log($risk);
 
         $risk = $risk < 0 ? 0 : $risk;
         $risk = $risk > 100 ? 100 : $risk;

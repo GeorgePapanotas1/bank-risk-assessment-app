@@ -20,7 +20,14 @@ class FormTextInput extends Component {
                     {...min}
                     onChange={(e) => this.props.handler(e.target.value)}
                 ></input>
-                <small className="error-message">There was an error</small>
+
+                {this.props.error
+                    ? this.props.error.map((err, index) => (
+                          <small key={index} className="error-message">
+                              {err}
+                          </small>
+                      ))
+                    : ""}
             </div>
         );
     }

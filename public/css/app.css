@@ -19,6 +19,22 @@
   color: #d16d6d;
 }
 
+.final-score {
+  font-size: 38px;
+}
+
+.good-score {
+  color: #07ce07;
+}
+
+.mediocre-score {
+  color: #b0ce07;
+}
+
+.bad-score {
+  color: #e64c10;
+}
+
 /*!
  * Bootstrap v4.6.0 (https://getbootstrap.com/)
  * Copyright 2011-2021 The Bootstrap Authors
