@@ -2083,7 +2083,7 @@ var ClientForm = /*#__PURE__*/function (_Component) {
     key: "storeClient",
     value: function () {
       var _storeClient = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
-        var response, client, risk_score_calc, risk_score;
+        var response, client, risk_score_calc, risk_score, dynamic_risk_score_calc, dynamic_risk_score;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -2106,7 +2106,7 @@ var ClientForm = /*#__PURE__*/function (_Component) {
                 client = response.data;
                 this.handleResponseErrors({});
                 _context.next = 9;
-                return fetch("".concat(this.state.baseURL, "client/score"), {
+                return fetch("".concat(this.state.baseURL, "client/static_score"), {
                   method: "POST",
                   headers: {
                     "Content-Type": "application/json",
@@ -2124,24 +2124,46 @@ var ClientForm = /*#__PURE__*/function (_Component) {
 
               case 12:
                 risk_score = _context.sent;
-                console.log(risk_score);
-                $("#exampleModalCenter").modal("show");
-                this.props.changedScore(risk_score.risk);
-                _context.next = 22;
-                break;
+                _context.next = 15;
+                return fetch("".concat(this.state.baseURL, "client/dynamic_score"), {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                    Accept: "application/json"
+                  },
+                  body: JSON.stringify({
+                    SSN: client.SSN
+                  })
+                });
+
+              case 15:
+                dynamic_risk_score_calc = _context.sent;
+                _context.next = 18;
+                return dynamic_risk_score_calc.json();
 
               case 18:
-                _context.prev = 18;
+                dynamic_risk_score = _context.sent;
+                console.log(risk_score);
+                console.log(dynamic_risk_score);
+                $("#exampleModalCenter").modal("show");
+                this.props.changedScore(risk_score.risk);
+                this.props.changedClient(risk_score.client);
+                this.props.changedDynamicScore(dynamic_risk_score.risk);
+                _context.next = 31;
+                break;
+
+              case 27:
+                _context.prev = 27;
                 _context.t0 = _context["catch"](1);
                 this.handleResponseErrors(_context.t0.response.data.errors);
                 return _context.abrupt("return");
 
-              case 22:
+              case 31:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, this, [[1, 18]]);
+        }, _callee, this, [[1, 27]]);
       }));
 
       function storeClient() {
@@ -2235,11 +2257,11 @@ var ClientForm = /*#__PURE__*/function (_Component) {
             })
           })]
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
-          className: "row text-center",
+          className: "row text-center button-confirm",
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("button", {
             onClick: this.storeClient,
             type: "button",
-            className: "btn btn-primary m-auto",
+            className: "btn btn-primary m-auto ",
             children: "SUBMIT"
           })
         })]
@@ -2587,12 +2609,34 @@ function Homepage() {
       score = _useState2[0],
       setScore = _useState2[1];
 
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(0),
+      _useState4 = _slicedToArray(_useState3, 2),
+      dynamic_score = _useState4[0],
+      setDynamicScore = _useState4[1];
+
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
+    SSN: "",
+    fullname: "",
+    occupation: "",
+    total_deposits: null,
+    total_unpaid_loans: null,
+    active_loans_number: null,
+    total_unsettled_amount: null
+  }),
+      _useState6 = _slicedToArray(_useState5, 2),
+      client = _useState6[0],
+      setSClient = _useState6[1];
+
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
     className: "container",
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_Header__WEBPACK_IMPORTED_MODULE_2__.default, {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_Explanations__WEBPACK_IMPORTED_MODULE_3__.default, {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_ClientForm__WEBPACK_IMPORTED_MODULE_4__.default, {
-      changedScore: setScore
+      changedScore: setScore,
+      changedClient: setSClient,
+      changedDynamicScore: setDynamicScore
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_ModalContent__WEBPACK_IMPORTED_MODULE_5__.default, {
-      score: score
+      score: score,
+      dynamic_score: score,
+      client: client
     })]
   });
 }
@@ -2697,11 +2741,78 @@ var ModalContent = /*#__PURE__*/function (_Component) {
               className: "modal-body",
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
                 className: "result",
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h4", {
-                  children: "Client's Risk Score:"
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h2", {
-                  className: "final-score text-center ".concat(colorClass),
-                  children: this.props.score
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+                  className: "row",
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+                    className: "col-md-6 text-center",
+                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h4", {
+                      className: "text-center thin",
+                      children: "Client's Risk Score:"
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("small", {
+                      className: "text-center thin",
+                      children: "(Static Rules)"
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h2", {
+                      className: "final-score text-center ".concat(colorClass),
+                      children: this.props.score
+                    })]
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+                    className: "col-md-6 text-center",
+                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h4", {
+                      className: "text-center thin",
+                      children: "Client's Risk Score:"
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("small", {
+                      className: "text-center thin",
+                      children: "(Dynamic Rules)"
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h2", {
+                      className: "final-score text-center ".concat(colorClass),
+                      children: this.props.dynamic_score
+                    })]
+                  })]
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("hr", {
+                  className: "row-divider"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+                  className: "client-data",
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h4", {
+                    className: "text-center thin",
+                    children: "Client Data"
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+                    className: "row",
+                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+                      className: "col-md-6",
+                      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("p", {
+                        children: ["SSN:", " ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("strong", {
+                          children: this.props.client.SSN
+                        })]
+                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("p", {
+                        children: ["Full Name:", " ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("strong", {
+                          children: this.props.client.full_name
+                        })]
+                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("p", {
+                        children: ["Occupation:", " ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("strong", {
+                          children: this.props.client.occupation
+                        })]
+                      })]
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+                      className: "col-md-6",
+                      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("p", {
+                        children: ["Total Deposits:", " ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("strong", {
+                          children: this.props.client.total_deposits
+                        })]
+                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("p", {
+                        children: ["Total Unpaid Loans:", " ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("strong", {
+                          children: this.props.client.total_unpaid_loans
+                        })]
+                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("p", {
+                        children: ["Total Active Loans:", " ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("strong", {
+                          children: this.props.client.active_loans_number
+                        })]
+                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("p", {
+                        children: ["Total Unsettled Amount:", " ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("strong", {
+                          children: this.props.client.total_unsettled_amount
+                        })]
+                      })]
+                    })]
+                  })]
                 })]
               })
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {

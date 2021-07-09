@@ -53,10 +53,18 @@ class ClientController extends Controller
 
         $risk = $client->calculateRisk();
 
-        $client->risk_score = $client->calculateRisk();
+        $client->risk_score = $risk;
         $client->save();
 
         return ['risk' => $risk, 'client' => $client];
 
+    }
+
+    public function calculateDynamicScore(Request $request){
+        $client = Client::find($request->SSN);
+
+        $risk = $client->calculateDynamicRisk();
+
+        return ['risk_dynamic' => $risk, 'client' => $client];
     }
 }

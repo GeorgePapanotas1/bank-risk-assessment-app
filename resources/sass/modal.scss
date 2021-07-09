@@ -1,5 +1,5 @@
 .final-score {
-    font-size: 38px;
+    font-size: 48px;
 }
 
 .good-score {
@@ -12,4 +12,21 @@
 
 .bad-score {
     color: rgb(230, 76, 16);
+}
+
+.thin {
+    font-weight: 400;
+}
+
+.row-divider {
+    width: 40%;
+    margin: auto;
+    color: black;
+}
+
+.client-data {
+    margin-top: 40px;
+    h4 {
+        margin-bottom: 30px;
+    }
 }

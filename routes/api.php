@@ -21,6 +21,11 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::group(['prefix' => 'client','middleware' => 'XssSanitizer'], function () {
     Route::post('store', 'App\Http\Controllers\ClientController@store');
-    Route::post('score', 'App\Http\Controllers\ClientController@calculateRiskScore');
+    Route::post('static_score', 'App\Http\Controllers\ClientController@calculateRiskScore');
+    Route::post('dynamic_score', 'App\Http\Controllers\ClientController@calculateDynamicScore');
+ });
+
+ Route::group(['prefix' => 'rules','middleware' => 'XssSanitizer'], function () {
+    Route::post('test', 'App\Http\Controllers\RulesController@test');
  });
 

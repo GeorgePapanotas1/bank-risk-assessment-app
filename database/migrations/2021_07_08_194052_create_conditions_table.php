@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateRulesTable extends Migration
+class CreateConditionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,12 @@ class CreateRulesTable extends Migration
      */
     public function up()
     {
-        Schema::create('rules', function (Blueprint $table) {
-            $table->id();
+        Schema::create('gp_conditions', function (Blueprint $table) {
+            $table->id('cond_id');
+            $table->string('client_field');
+            $table->string('comparator');
+            $table->string('comparison');
+            $table->unsignedBigInteger('rg_id');
             $table->timestamps();
         });
     }
@@ -26,6 +30,6 @@ class CreateRulesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('rules');
+        Schema::dropIfExists('gp_conditions');
     }
 }

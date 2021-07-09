@@ -93,7 +93,7 @@ class ClientForm extends Component {
             this.handleResponseErrors({});
 
             const risk_score_calc = await fetch(
-                `${this.state.baseURL}client/score`,
+                `${this.state.baseURL}client/static_score`,
                 {
                     method: "POST",
                     headers: {
@@ -106,9 +106,26 @@ class ClientForm extends Component {
 
             const risk_score = await risk_score_calc.json();
 
+            const dynamic_risk_score_calc = await fetch(
+                `${this.state.baseURL}client/dynamic_score`,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Accept: "application/json",
+                    },
+                    body: JSON.stringify({ SSN: client.SSN }),
+                }
+            );
+
+            const dynamic_risk_score = await dynamic_risk_score_calc.json();
+
             console.log(risk_score);
+            console.log(dynamic_risk_score);
             $("#exampleModalCenter").modal("show");
             this.props.changedScore(risk_score.risk);
+            this.props.changedClient(risk_score.client);
+            this.props.changedDynamicScore(dynamic_risk_score.risk);
         } catch (err) {
             this.handleResponseErrors(err.response.data.errors);
             return;
@@ -199,11 +216,11 @@ class ClientForm extends Component {
                         />
                     </div>
                 </div>
-                <div className="row text-center">
+                <div className="row text-center button-confirm">
                     <button
                         onClick={this.storeClient}
                         type="button"
-                        className="btn btn-primary m-auto"
+                        className="btn btn-primary m-auto "
                     >
                         SUBMIT
                     </button>

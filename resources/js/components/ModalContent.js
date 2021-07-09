@@ -45,12 +45,107 @@ class ModalContent extends Component {
                         </div>
                         <div className="modal-body">
                             <div className="result">
-                                <h4>Client's Risk Score:</h4>
-                                <h2
-                                    className={`final-score text-center ${colorClass}`}
-                                >
-                                    {this.props.score}
-                                </h2>
+                                <div className="row">
+                                    <div className="col-md-6 text-center">
+                                        <h4 className="text-center thin">
+                                            Client's Risk Score:
+                                        </h4>
+                                        <small className="text-center thin">
+                                            (Static Rules)
+                                        </small>
+                                        <h2
+                                            className={`final-score text-center ${colorClass}`}
+                                        >
+                                            {this.props.score}
+                                        </h2>
+                                    </div>
+                                    <div className="col-md-6 text-center">
+                                        <h4 className="text-center thin">
+                                            Client's Risk Score:
+                                        </h4>
+                                        <small className="text-center thin">
+                                            (Dynamic Rules)
+                                        </small>
+                                        <h2
+                                            className={`final-score text-center ${colorClass}`}
+                                        >
+                                            {this.props.dynamic_score}
+                                        </h2>
+                                    </div>
+                                </div>
+
+                                <hr className="row-divider" />
+                                <div className="client-data">
+                                    <h4 className="text-center thin">
+                                        Client Data
+                                    </h4>
+                                    <div className="row">
+                                        <div className="col-md-6">
+                                            <p>
+                                                SSN:{" "}
+                                                <strong>
+                                                    {this.props.client.SSN}
+                                                </strong>
+                                            </p>
+                                            <p>
+                                                Full Name:{" "}
+                                                <strong>
+                                                    {
+                                                        this.props.client
+                                                            .full_name
+                                                    }
+                                                </strong>
+                                            </p>
+                                            <p>
+                                                Occupation:{" "}
+                                                <strong>
+                                                    {
+                                                        this.props.client
+                                                            .occupation
+                                                    }
+                                                </strong>
+                                            </p>
+                                        </div>
+                                        <div className="col-md-6">
+                                            <p>
+                                                Total Deposits:{" "}
+                                                <strong>
+                                                    {
+                                                        this.props.client
+                                                            .total_deposits
+                                                    }
+                                                </strong>
+                                            </p>
+                                            <p>
+                                                Total Unpaid Loans:{" "}
+                                                <strong>
+                                                    {
+                                                        this.props.client
+                                                            .total_unpaid_loans
+                                                    }
+                                                </strong>
+                                            </p>
+                                            <p>
+                                                Total Active Loans:{" "}
+                                                <strong>
+                                                    {
+                                                        this.props.client
+                                                            .active_loans_number
+                                                    }
+                                                </strong>
+                                            </p>
+                                            <p>
+                                                Total Unsettled Amount:{" "}
+                                                <strong>
+                                                    {
+                                                        this.props.client
+                                                            .total_unsettled_amount
+                                                    }
+                                                </strong>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div className="modal-footer">
