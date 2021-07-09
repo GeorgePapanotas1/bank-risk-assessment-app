@@ -16,8 +16,7 @@
 
 ### 4. php artisan serve για να ανοίξει ο dev server.
 
-## author:
+## Author:
 
-## George Papanotas
-
-## Software Engineer
+<p> George Papanotas </p>
+<p> Software Engineer </p>
