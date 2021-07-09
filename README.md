@@ -2,7 +2,15 @@
 
 ## Οδηγίες εγγατάστασης.
 
-### 1. Δημιουργία του .env και σύνδεση μιας MySQL βάσης.
+### Θα χρειαστεί μετα το pull να εκτελέσετε τα εξής:
+
+#### composer update
+
+#### composer dump-autoload
+
+#### php artisan key:generate
+
+### 1. Δημιουργία του .env και σύνδεση μιας MySQL βάσης. (συμπληρώστε το .env.example και μεταονομάστε σε .env)
 
 ### 2. Migration και seeding της βάσης.
 
