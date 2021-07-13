@@ -25,11 +25,27 @@ class Client extends Model
     ];
 
     public function calculateDynamicRisk(){
+
+        /**
+         * Brief explanation of concept.
+         *
+         * This function is utilizing the BankRule model in order to use dynamic rules.
+         * After getting the rules, I assess their validity using the calculateDynamicRules method.
+         * If the rule is valid, then the performAction is called.
+         * Finally if the rule is strong, the function returns the risk.
+         */
+
         $rules = BankRule::all();
         $risk = 0;
         foreach($rules as $rule){
             if($this->calculateDynamicRules($rule->br_id)){
                 $risk = $this->performAction($rule->action, $rule->action_value, $risk);
+
+                /**
+                 * This checks if the condition is strong or not (like the first rule).
+                 * I did it this way by assuming that the most important rules will be placed
+                 * first. Thus, the first strong rule will be applied.
+                 */
                 if($rule->isStrong){
                     return $risk;
                 }
@@ -46,11 +62,11 @@ class Client extends Model
         // Get a rule
         $rule = BankRule::find($rule_id);
         // Grab it's rule groups
-        $rule2 = $rule->rulegroups;
+        $rulegroups = $rule->rulegroups;
 
         $rule_group_results = array();
         // foreach rule group
-        foreach($rule2 as $r){
+        foreach($rulegroups as $r){
 
             //grab it's conditions
             $cond = $r->conditions;
@@ -134,6 +150,9 @@ class Client extends Model
                 break;
             case '==':
                 return $val <= $comparator;
+                break;
+            case '!=':
+                return $val != $comparator;
                 break;
         }
     }
